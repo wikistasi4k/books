@@ -1,0 +1,40 @@
+{% for book in page_obj %}
+    <div>
+        <h2>{{ book.title }}</h2>
+        <p>Author: {{ book.author }}</p>
+        <p>Description: {{ book.description }}</p>
+        <p>Tags: 
+            {% for tag in book.tags.all %}
+                {{ tag.name }}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        </p>
+        <a href="{% url 'book_detail' book.id %}">Details</a>
+        {% if request.user.is_authenticated %}
+            <form method="POST" action="{% url 'borrow_book' book.id %}">
+                {% csrf_token %}
+                <button type="submit">Borrow</button>
+            </form>
+        {% endif %}
+    </div>
+{% endfor %}
+
+<div>
+    {% if page_obj.has_previous %}
+        <a href="?page=1">First</a>
+        <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+    {% endif %}
+
+    {% for num in page_obj.paginator.page_range %}
+        {% if num == page_obj.number %}
+            <span>{{ num }}</span>
+        {% else %}
+            <a href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">Next</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+    {% endif %}
+</div>
+

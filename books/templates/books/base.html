@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Library</title>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{% url 'book_list' %}">Books</a></li>
+            <li><a href="{% url 'borrowed_books' %}">My Borrowed Books</a></li>
+        </ul>
+    </nav>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+</html>

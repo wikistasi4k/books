@@ -1,0 +1,16 @@
+{% for borrow in borrows %}
+    <div>
+        <h2>{{ borrow.book.title }}</h2>
+        <p>Borrowed Date: {{ borrow.borrowed_date }}</p>
+        {% if borrow.returned_date %}
+            <p>Returned Date: {{ borrow.returned_date }}</p>
+        {% endif %}
+        <p>Is Returned: {% if borrow.is_returned %}Yes{% else %}No{% endif %}</p>
+        {% if not borrow.is_returned %}
+            <form method="POST" action="{% url 'return_book' borrow.id %}">
+                {% csrf_token %}
+                <button type="submit">Return</button>
+            </form>
+        {% endif %}
+    </div>
+{% endfor %}
